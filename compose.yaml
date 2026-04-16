@@ -1,0 +1,92 @@
+services:
+  server:
+    build:
+      context: .
+      target: final
+    ports:
+      - 8080:8080
+    networks:
+      - podkit
+    secrets:
+      - db-password
+      - redis-password
+    environment:
+      - DATABASE_URL=postgres://postgres@database/podkit
+      - REDIS_URL=redis://:$(cat /run/secrets/redis-password)@redis:6379
+    depends_on:
+      database:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+
+  database:
+    image: postgres:17-alpine3.22
+    restart: always
+    user: postgres
+    secrets:
+      - db-password
+    volumes:
+      - podkit-db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=podkit
+      - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
+    networks:
+      - podkit
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+
+  redis:
+    image: docker.dragonflydb.io/dragonflydb/dragonfly
+    restart: always
+    secrets:
+      - redis-password
+    volumes:
+      - podkit-redis:/data
+    entrypoint:
+      - /bin/sh
+      - -c
+      - exec dragonfly --requirepass "$$(cat /run/secrets/redis-password)"
+    networks:
+      - podkit
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "$$(cat /run/secrets/redis-password)", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+
+volumes:
+  podkit-db:
+  podkit-redis:
+
+secrets:
+  db-password:
+    file: secrets/db-password.txt
+  redis-password:
+    file: secrets/redis-password.txt
+
+networks:
+  podkit:
+    external: true
