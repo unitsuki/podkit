@@ -4,6 +4,7 @@ use forgeconf::forgeconf;
 
 use crate::error::ServerError;
 
+#[allow(dead_code)]
 pub fn config_path() -> String {
 	let dir = dirs::config_dir()
 		.unwrap_or_else(|| std::path::PathBuf::from("."))
@@ -36,6 +37,7 @@ impl ServerConfig {
 		Ok(Self::loader().load()?)
 	}
 
+	#[allow(dead_code)]
 	pub fn create_if_missing() -> std::io::Result<()> {
 		let path = std::path::PathBuf::from(config_path());
 		let dir = path.parent().unwrap();

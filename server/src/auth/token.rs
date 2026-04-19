@@ -1,3 +1,4 @@
+use crypto::ids::generate_id;
 use jsonwebtoken::{decode, encode, DecodingKey, EncodingKey, Header, Validation};
 use serde::{Deserialize, Serialize};
 use time::OffsetDateTime;
@@ -5,6 +6,7 @@ use time::OffsetDateTime;
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Claims {
 	pub sub: String,
+	pub jti: String,
 	pub exp: i64,
 	pub iat: i64,
 }
@@ -27,6 +29,7 @@ impl TokenService {
 		let now = OffsetDateTime::now_utc();
 		let claims = Claims {
 			sub: user_id,
+			jti: generate_id(None),
 			iat: now.unix_timestamp(),
 			exp: (now + time::Duration::hours(24)).unix_timestamp(),
 		};

@@ -12,4 +12,7 @@ pub enum DatabaseError {
 
 	#[error("{0}")]
 	Anyhow(#[from] anyhow::Error),
+
+	#[error("Failed to run migrations")]
+	MigrationError,
 }

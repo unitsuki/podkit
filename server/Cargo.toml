@@ -23,6 +23,7 @@ dirs.workspace = true
 tower-cookies.workspace = true
 zeroize.workspace = true
 database.workspace = true
+crypto.workspace = true
 
 [lints]
 workspace = true

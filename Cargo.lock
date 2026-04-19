@@ -1777,6 +1777,7 @@ dependencies = [
  "axum-extra",
  "axum_thiserror",
  "better-tracing",
+ "crypto",
  "database",
  "dirs",
  "forgeconf",

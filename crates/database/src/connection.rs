@@ -5,15 +5,6 @@ use sqlx::{Pool, Postgres};
 
 use crate::DatabaseError;
 
-/// This macro obtains a connection to the database,
-/// beware it must be in an async (sugar syntaxed) context.
-#[macro_export]
-macro_rules! db {
-	() => {
-		$database::utils::connection::get_db_connection().await?
-	};
-}
-
 static CONNECTION: OnceLock<Pool<Postgres>> = OnceLock::new();
 
 /// This obtains a database connection from the `CONNECTION` oncelock
@@ -25,12 +16,19 @@ pub async fn get_db_connection<'r>(url: Option<&str>) -> Result<&'r Pool<Postgre
 		return Ok(connection);
 	}
 
-	let pool = PgPoolOptions::new() //
+	let pool = PgPoolOptions::new()
 		.max_connections(5)
 		.connect(url.unwrap_or(env!("DATABASE_URL")))
 		.await?;
 
-	sqlx::migrate!().run(&pool).await?;
-
 	Ok(CONNECTION.get_or_init(|| pool))
+}
+
+pub async fn migrate() -> Result<(), DatabaseError> {
+	if let Some(pool) = CONNECTION.get() {
+		sqlx::migrate!().run(pool).await?;
+		return Ok(());
+	}
+
+	Err(DatabaseError::MigrationError)
 }
