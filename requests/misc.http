@@ -1,0 +1,3 @@
+### Health
+# @name Health
+GET {{base.url}}/health

@@ -1,0 +1,26 @@
+### Register
+# @name Register
+POST {{base.url}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "{{auth.name}}",
+  "email": "{{auth.email}}",
+  "password": "{{auth.password}}"
+}
+
+### Login
+# @name Login
+# @capture file-secret auth.token = response.json.token
+POST {{base.url}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "{{auth.email}}",
+  "password": "{{auth.password}}"
+}
+
+### Logout
+# @name Logout
+POST {{base.url}}/auth/logout
+Authorization: Bearer {{auth.token}}
