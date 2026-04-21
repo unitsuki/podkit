@@ -14,6 +14,7 @@ async fn health() -> &'static str {
 pub async fn routes(state: AppState) -> AppResult<Router> {
 	Ok(Router::new()
 		.route("/health", get(health))
+		.route("/auth/register", post(auth::register))
 		.route("/auth/login", post(auth::login))
 		.route("/auth/logout", post(auth::logout))
 		.layer(CookieManagerLayer::new())
