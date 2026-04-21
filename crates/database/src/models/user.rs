@@ -39,7 +39,7 @@ impl UserModel {
 				VALUES ($1, $2, $3, $4)
 				RETURNING *
 			"#,
-			generate_id(None),
+			generate_id(),
 			new.name,
 			new.email,
 			new.pasword
@@ -66,7 +66,7 @@ impl UserModel {
 	) -> Result<Option<Self>, DatabaseError> {
 		let Some(user) = Self::find_by_email(pool, email).await? else {
 			// Run verify anyway to prevent timing-based user enumeration
-			passwords::verify(password, "$argon2id$dummy".into())
+			passwords::verify(password, passwords::DUMMY_HASH.clone())
 				.await
 				.ok();
 			return Ok(None);

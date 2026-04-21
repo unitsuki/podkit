@@ -38,7 +38,7 @@ impl TeamModel {
 				VALUES ($1, $2, $3, $4)
 				RETURNING *
 			"#,
-			generate_id(None),
+			generate_id(),
 			new.name,
 			new.logo,
 			new.owner_id

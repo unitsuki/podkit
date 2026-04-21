@@ -29,7 +29,7 @@ impl TokenService {
 		let now = OffsetDateTime::now_utc();
 		let claims = Claims {
 			sub: user_id,
-			jti: generate_id(None),
+			jti: generate_id(),
 			iat: now.unix_timestamp(),
 			exp: (now + time::Duration::hours(24)).unix_timestamp(),
 		};
