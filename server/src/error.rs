@@ -1,8 +1,8 @@
 use axum::http::StatusCode;
-use axum_thiserror::ErrorStatus;
+use macros::JsonError;
 use thiserror::Error as ThisError;
 
-#[derive(ThisError, Debug, ErrorStatus)]
+#[derive(ThisError, Debug, JsonError)]
 pub enum ServerError {
 	#[error("std io: {0}")]
 	#[status(StatusCode::INTERNAL_SERVER_ERROR)]

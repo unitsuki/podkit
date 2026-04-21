@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["crates/crypto", "crates/database", "server"]
+members = ["crates/crypto", "crates/database", "crates/macros", "server"]
 
 [profile.release]
 opt-level = "z"
@@ -38,11 +38,10 @@ sqlx = { version = "=0.8.6", features = [
 nanoid = "=0.5.0"
 axum = "=0.8.9"
 axum-extra = { version = "0.12.6", features = ["typed-header"] }
-axum_thiserror = "=0.1.0"
 age = "=0.11.2"
 argon2 = "=0.5.3"
 zeroize = "=1.8.2"
-jsonwebtoken = "=10.3.0"
+jsonwebtoken = { version = "=10.3.0", features = ["rust_crypto"] }
 tower-cookies = "=0.11.0"
 serde = { version = "1.0.228", features = ["derive"] }
 forgeconf = { git = "https://github.com/chikof/forgeconf", rev = "b4b2e01707834cea02c19978746256b3a06814e9", default-features = false, features = [
@@ -54,6 +53,7 @@ dirs = "=6.0.0"
 
 crypto = { path = "./crates/crypto" }
 database = { path = "./crates/database" }
+macros = { path = "./crates/macros" }
 
 
 [workspace.lints.clippy]

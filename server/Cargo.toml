@@ -9,7 +9,7 @@ rust-version.workspace = true
 [dependencies]
 axum.workspace = true
 axum-extra.workspace = true
-axum_thiserror.workspace = true
+macros.workspace = true
 tokio.workspace = true
 thiserror.workspace = true
 better-tracing.workspace = true
