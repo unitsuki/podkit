@@ -1,11 +1,11 @@
-use axum::{extract::State, Json};
+use axum::{Json, extract::State};
 use serde::{Deserialize, Serialize};
 use tower_cookies::{Cookie, Cookies};
 use zeroize::Zeroizing;
 
 use database::models::user::UserModel;
 
-use crate::{error::ServerError, AppState};
+use crate::{AppState, error::ServerError};
 
 #[derive(Deserialize)]
 pub struct LoginRequest {

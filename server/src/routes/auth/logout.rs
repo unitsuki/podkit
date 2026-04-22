@@ -5,7 +5,7 @@ use tower_cookies::{Cookie, Cookies};
 
 use database::models::token_revocations::TokenRevocation;
 
-use crate::{auth::extractor::AuthUser, error::ServerError, AppState};
+use crate::{AppState, auth::extractor::AuthUser, error::ServerError};
 
 pub async fn logout(
 	State(state): State<AppState>,

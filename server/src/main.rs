@@ -1,8 +1,8 @@
 use std::sync::Arc;
 
+use database::PgPool;
 use database::connection::{get_db_connection, migrate};
 use database::models::token_revocations::TokenRevocation;
-use database::PgPool;
 use tokio::net::TcpListener;
 use tracing::{info, warn};
 
@@ -24,11 +24,13 @@ pub struct AppState {
 
 #[tokio::main]
 async fn main() -> AppResult<()> {
-
 	#[cfg(debug_assertions)]
 	dotenvy::dotenv().ok(); // I wasn’t really sure whether we should use dotenv_override() or not
 
 	better_tracing::fmt().init();
+
+	#[cfg(feature = "config_file")]
+	ServerConfig::create_if_missing()?;
 
 	let config = ServerConfig::load()?;
 	info!(version = env!("CARGO_PKG_VERSION"), "podkit starting");

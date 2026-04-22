@@ -1,4 +1,4 @@
-use sqlx::{prelude::FromRow, PgPool};
+use sqlx::{PgPool, prelude::FromRow};
 use time::OffsetDateTime;
 
 use crypto::{ids::generate_id, passwords};

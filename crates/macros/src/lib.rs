@@ -1,6 +1,6 @@
 use proc_macro::TokenStream;
 use quote::quote;
-use syn::{parse_macro_input, Data, DeriveInput, Fields};
+use syn::{Data, DeriveInput, Fields, parse_macro_input};
 
 /// Derives [`axum::response::IntoResponse`] for an error enum, returning JSON
 /// bodies of the form `{"error": "<message>"}`.
@@ -49,7 +49,7 @@ pub fn derive_json_error(input: TokenStream) -> TokenStream {
 			Ok(None) => {
 				return quote! {
 					compile_error!("missing #[status(...)] on variant");
-				}
+				};
 			}
 			Err(e) => return e.to_compile_error(),
 		};

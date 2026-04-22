@@ -5,9 +5,10 @@ use forgeconf::forgeconf;
 use crate::error::ServerError;
 
 #[allow(dead_code)]
+#[cfg(feature = "config_file")]
 pub fn config_path() -> String {
 	let dir = dirs::config_dir()
-		.unwrap_or_else(|| std::path::PathBuf::from("."))
+		.unwrap_or(std::path::PathBuf::from("."))
 		.join("podkit");
 	let config_name = "config.toml";
 
@@ -17,7 +18,8 @@ pub fn config_path() -> String {
 		.to_string()
 }
 
-#[forgeconf(config(path = config_path()))]
+#[cfg_attr(feature = "config_file", forgeconf(config(path = config_path())))]
+#[cfg_attr(not(feature = "config_file"), forgeconf)]
 pub struct ServerConfig {
 	#[field(env = "DATABASE_URL")]
 	pub database_url: String,
@@ -28,7 +30,8 @@ pub struct ServerConfig {
 	#[field(env = "HOST", default = "0.0.0.0".into())]
 	pub host: String,
 
-	#[field(env = "PORT", default = 8080)] // detski NOTE: This thing gave me a lovely Os { code: 98, kind: AddrInUse, message: "Address already in use" }
+	#[field(env = "PORT", default = 8080)]
+	// detski NOTE: This thing gave me a lovely Os { code: 98, kind: AddrInUse, message: "Address already in use" }
 	pub port: i32,
 }
 
@@ -37,7 +40,7 @@ impl ServerConfig {
 		Ok(Self::loader().load()?)
 	}
 
-	#[allow(dead_code)]
+	#[cfg(feature = "config_file")]
 	pub fn create_if_missing() -> std::io::Result<()> {
 		let path = std::path::PathBuf::from(config_path());
 		let dir = path.parent().unwrap();

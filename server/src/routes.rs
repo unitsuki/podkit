@@ -1,11 +1,11 @@
-use axum::routing::{get, post};
 use axum::Router;
+use axum::routing::{get, post};
 use tower_cookies::CookieManagerLayer;
 
 mod auth;
 
-use crate::error::AppResult;
 use crate::AppState;
+use crate::error::AppResult;
 
 async fn health() -> &'static str {
 	"ok"

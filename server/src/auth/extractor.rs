@@ -1,12 +1,12 @@
-use axum::{extract::FromRequestParts, http::request::Parts, RequestPartsExt};
+use axum::{RequestPartsExt, extract::FromRequestParts, http::request::Parts};
 use axum_extra::{
-	headers::{authorization::Bearer, Authorization},
 	TypedHeader,
+	headers::{Authorization, authorization::Bearer},
 };
 use database::models::token_revocations::TokenRevocation;
 use tower_cookies::Cookies;
 
-use crate::{error::ServerError, AppState};
+use crate::{AppState, error::ServerError};
 
 use super::token::Claims;
 

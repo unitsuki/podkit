@@ -1,10 +1,10 @@
-use axum::{extract::State, http::StatusCode, Json};
+use axum::{Json, extract::State, http::StatusCode};
 use crypto::passwords;
 use database::models::user::{NewUser, UserModel};
 use serde::Deserialize;
 use zeroize::Zeroizing;
 
-use crate::{error::ServerError, AppState};
+use crate::{AppState, error::ServerError};
 
 #[derive(Deserialize)]
 pub struct RegisterRequest {

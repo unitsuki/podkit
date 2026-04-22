@@ -1,11 +1,11 @@
 use std::sync::LazyLock;
 
-use anyhow::{anyhow, Context};
-use argon2::password_hash::rand_core::OsRng;
+use anyhow::{Context, anyhow};
 use argon2::password_hash::SaltString;
+use argon2::password_hash::rand_core::OsRng;
 use argon2::{
-	password_hash, Algorithm, Argon2, Params, PasswordHash, PasswordHasher, PasswordVerifier,
-	Version,
+	Algorithm, Argon2, Params, PasswordHash, PasswordHasher, PasswordVerifier, Version,
+	password_hash,
 };
 use tokio::task;
 use zeroize::Zeroizing;
