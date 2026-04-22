@@ -1,5 +1,6 @@
 **/.dockerignore
 **/.env
+**/devenv*
 **/.git
 **/.gitignore
 **/.vscode
