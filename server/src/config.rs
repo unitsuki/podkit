@@ -1,5 +1,3 @@
-use std::fs;
-
 use forgeconf::forgeconf;
 
 use crate::error::ServerError;
@@ -46,11 +44,11 @@ impl ServerConfig {
 		let dir = path.parent().unwrap();
 
 		if !dir.exists() {
-			fs::create_dir_all(dir)?;
+			std::fs::create_dir_all(dir)?;
 		}
 
 		if !path.exists() {
-			fs::write(&path, include_str!("../../config.default.toml"))?;
+			std::fs::write(&path, include_str!("../../config.default.toml"))?;
 		}
 
 		Ok(())
