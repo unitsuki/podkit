@@ -3,10 +3,12 @@ pub struct PasswordHash(String);
 
 impl PasswordHash {
 	// we assume the caller provides a correctly hashed string, fatdevs must be hating me
+	#[must_use]
 	pub fn new(hash: String) -> Self {
 		Self(hash)
 	}
 
+	#[must_use]
 	pub fn as_str(&self) -> &str {
 		&self.0
 	}

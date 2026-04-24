@@ -17,7 +17,7 @@ liability arising from or related to this file or its use.
 */
 
 //! - Local-part: `atext` characters (RFC 5321 §4.1.2) plus `.` with rules.
-//!   Allowed: `a-z A-Z 0-9 ! # $ % & ' * + - / = ? ^ _ ` { | } ~`
+//!   Allowed: ``a-z A-Z 0-9 ! # $ % & ' * + - / = ? ^ _ ` { | } ~``
 //!   Dots: allowed but not at start, end, or consecutively.
 //!   Max 64 characters.
 //! - Domain: standard hostname (RFC 1123).
